@@ -9,28 +9,3 @@ class Drawing{
     static SDL_Texture* assets;
 };
 
-class Direction
-{
-    public:
-    double angle;
-    Direction(int degrees = 0)
-    {
-        angle =  degrees*(3.142/180);
-    }
-    // Direction(double radians = 0)
-    // {
-    //     angle =  radians;
-    // }
-    float x_Ratio()
-    {
-        return cos(angle);
-    }
-    float y_Ratio()
-    {
-        return sin(angle);
-    }
-    Direction operator + (Direction obj)
-    {
-        return Direction(angle + obj.angle);
-    }
-};
