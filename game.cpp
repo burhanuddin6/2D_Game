@@ -1,5 +1,5 @@
 #include "game.hpp"
-#include "HUMania.hpp"
+// #include "HUMania.hpp"
 
 SDL_Renderer* Drawing::gRenderer = NULL;
 SDL_Texture* Drawing::assets = NULL;
