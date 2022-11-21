@@ -3,8 +3,10 @@
 
 SDL_Renderer* Drawing::gRenderer = NULL;
 SDL_Texture* Drawing::assets = NULL;
-
-bool Game::init()
+string Background::paths[] = {"res//day.jfif","res//night.jfif"};
+int Background::ind = 0;
+string Background::bg = paths[ind];
+bool Window::init()
 {
 	//Initialization flag
 	bool success = true;
@@ -60,14 +62,27 @@ bool Game::init()
 	return success;
 }
 
-bool Game::loadMedia()
+bool Window::loadAssets(string assets)
 {
 	//Loading success flag
 	bool success = true;
 	
-	Drawing::assets = loadTexture("assets.png");
-    gTexture = loadTexture("hu.png");
-	if(Drawing::assets==NULL || gTexture==NULL)
+	Drawing::assets = loadTexture(assets);
+	if( Drawing::assets==NULL)
+    {
+        printf("Could not load assets: %s\n",SDL_GetError());
+        success =false;
+    }
+	return success;
+}
+
+bool Window::loadBackground(string bg)
+{
+	//Loading success flag
+	bool success = true;
+	
+    gTexture = loadTexture(bg);
+	if( gTexture==NULL)
     {
         printf("Unable to run due to error: %s\n",SDL_GetError());
         success =false;
@@ -75,7 +90,7 @@ bool Game::loadMedia()
 	return success;
 }
 
-void Game::close()
+void Window::close()
 {
 	//Free loaded images
 	SDL_DestroyTexture(Drawing::assets);
@@ -92,7 +107,7 @@ void Game::close()
 	SDL_Quit();
 }
 
-SDL_Texture* Game::loadTexture( std::string path )
+SDL_Texture* Window::loadTexture( std::string path )
 {
 	//The final texture
 	SDL_Texture* newTexture = NULL;
@@ -118,18 +133,37 @@ SDL_Texture* Game::loadTexture( std::string path )
 
 	return newTexture;
 }
-void Game::run( )
+void Window::run( )
 {
 	bool quit = false;
 	SDL_Event e;
+	bool start = false;
 
-	HUMania humania;
-
+	// HUMania humania;
+	int count = 0;
 	while( !quit )
 	{
+		count++;
+		if (count > 20)
+		{
+			count = 0;
+			Background::change_bg();
+			loadBackground(Background::bg);
+		}
 		//Handle events on queue
 		while( SDL_PollEvent( &e ) != 0 )
 		{
+			if (!start)
+			{
+				if (e.key.keysym.sym == SDLK_SPACE)
+				{
+					start = true;
+				}
+				else
+				{
+					continue;
+				}
+			}
 			//User requests quit
 			if( e.type == SDL_QUIT )
 			{
@@ -140,15 +174,22 @@ void Game::run( )
 			//this is a good location to add pigeon in linked list.
 				int xMouse, yMouse;
 				SDL_GetMouseState(&xMouse,&yMouse);
-				humania.createObject(xMouse, yMouse);
+				// humania.createObject(xMouse, yMouse);
 			}
+			
+			else if (e.type == SDL_KEYDOWN | e.type == SDL_KEYUP)
+			{
+				handleEvent(e);
+			}
+			else if (e.type == SDL_MOUSEBUTTONDOWN)
+			{}
 		}
 
 		SDL_RenderClear(Drawing::gRenderer); //removes everything from renderer
 		SDL_RenderCopy(Drawing::gRenderer, gTexture, NULL, NULL);//Draws background to renderer
 		//***********************draw the objects here********************
 
-		humania.drawObjects();
+		// humania.drawObjects();
 
 		//****************************************************************
     	SDL_RenderPresent(Drawing::gRenderer); //displays the updated renderer
@@ -156,4 +197,43 @@ void Game::run( )
 	    SDL_Delay(100);	//causes sdl engine to delay for specified miliseconds
 	}
 			
+}
+
+void Window::handleEvent(SDL_Event e)
+{
+	switch(e.type)
+	{
+		case SDL_KEYDOWN:
+			switch(e.key.keysym.sym)
+			{
+				case SDLK_LEFT:
+					break;
+				case SDLK_RIGHT:
+					break;
+				case SDLK_UP:
+					break;
+				case SDLK_DOWN:
+					break;
+				default:
+					break;
+			}
+			break;
+		case SDL_KEYUP:
+			switch(e.key.keysym.sym)
+			{
+				case SDLK_LEFT:
+					break;
+				case SDLK_RIGHT:
+					break;
+				case SDLK_UP:
+					break;
+				case SDLK_DOWN:
+					break;
+				default:
+					break;
+			}
+			break;
+		default:
+			break;
+	}
 }

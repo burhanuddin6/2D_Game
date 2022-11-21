@@ -6,7 +6,20 @@
 #include <string>
 #include <stdlib.h>
 #include <time.h>
-
+using namespace std;
+class Background
+{
+    public:
+    static const int NUMBER_OF_BGS = 2;
+    static string paths[NUMBER_OF_BGS];
+    static string bg;
+    static int ind;
+    static void change_bg()
+    {
+        bg = paths[ind];
+        ind = (ind + 1) % NUMBER_OF_BGS;
+    }
+};
 
 
 class Window{
@@ -26,13 +39,14 @@ public:
 
 
     bool init();
-    bool loadMedia();
+    bool loadAssets(string assets);
+    bool loadBackground(string bg);
     void close();
     SDL_Texture* loadTexture( std::string path );
     void run();
     const int getScreenWidth();
     const int getScreenHeight();
-    void Window::handleEvent(SDL_Event);
+    void handleEvent(SDL_Event);
 
 };
 
