@@ -1,4 +1,3 @@
-#include <math.h>
 #include<SDL.h>
 #pragma once
 class Drawing{
@@ -8,4 +7,3 @@ class Drawing{
     //global reference to png image sheets
     static SDL_Texture* assets;
 };
-

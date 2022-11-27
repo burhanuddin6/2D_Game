@@ -1,5 +1,6 @@
 #include "game.hpp"
-// #include "HUMania.hpp"
+#include "HUMania.hpp"
+#include "drawing.hpp"
 
 SDL_Renderer* Drawing::gRenderer = NULL;
 SDL_Texture* Drawing::assets = NULL;
@@ -60,13 +61,28 @@ bool Game::init()
 	return success;
 }
 
-bool Game::loadMedia()
+bool Game::loadMedia(int n)
 {
 	//Loading success flag
 	bool success = true;
 	
 	Drawing::assets = loadTexture("assets.png");
-    gTexture = loadTexture("hu.png");
+	if (n==1){
+		SDL_DestroyTexture(gTexture);
+		gTexture = loadTexture("Level 1.png");
+	}
+	else if (n==2){
+		SDL_DestroyTexture(gTexture); //supposedly destroys the previous texture. Helps in not casuing lag.
+		gTexture = loadTexture("Level 2.png");
+	}
+	else if (n==3){
+		SDL_DestroyTexture(gTexture);
+		gTexture = loadTexture("Level 3.png");
+	}
+	else if (n==4){
+		SDL_DestroyTexture(gTexture);
+		gTexture = loadTexture("Level 4.png");
+	}
 	if(Drawing::assets==NULL || gTexture==NULL)
     {
         printf("Unable to run due to error: %s\n",SDL_GetError());
@@ -124,17 +140,28 @@ void Game::run( )
 	SDL_Event e;
 
 	HUMania humania;
-
 	while( !quit )
 	{
 		//Handle events on queue
-		while( SDL_PollEvent( &e ) != 0 )
+		while( SDL_PollEvent( &e ) != 0 ) //responsible for looping
 		{
+			// cout << "humania level: " << humania.level << endl;
+			if (humania.level == 2 && humania.T == 1){
+				Game::loadMedia(2);
+			}
+			else if (humania.level == 3  && humania.T == 1){
+				Game::loadMedia(3); 
+			}
+			else if (humania.level == 4 && humania.T == 1){
+				Game::loadMedia(4); 
+			}
+			humania.T = 0;
 			//User requests quit
 			if( e.type == SDL_QUIT )
 			{
 				quit = true;
 			}
+
 
 			if(e.type == SDL_MOUSEBUTTONDOWN){
 			//this is a good location to add pigeon in linked list.
@@ -142,6 +169,7 @@ void Game::run( )
 				SDL_GetMouseState(&xMouse,&yMouse);
 				humania.createObject(xMouse, yMouse);
 			}
+
 		}
 
 		SDL_RenderClear(Drawing::gRenderer); //removes everything from renderer
@@ -149,7 +177,6 @@ void Game::run( )
 		//***********************draw the objects here********************
 
 		humania.drawObjects();
-
 		//****************************************************************
     	SDL_RenderPresent(Drawing::gRenderer); //displays the updated renderer
 
