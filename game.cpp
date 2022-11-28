@@ -3,7 +3,7 @@
 
 SDL_Renderer* Drawing::gRenderer = NULL;
 SDL_Texture* Drawing::assets = NULL;
-string Background::paths[] = {"res//day.jfif","res//night.jfif"};
+string Background::paths[] = {"res//Level1.png","res//Level2.png","res//Level3.png","res//Level3.png"};
 int Background::ind = 0;
 string Background::bg = paths[ind];
 bool Window::init()
@@ -139,7 +139,7 @@ void Window::run( )
 	SDL_Event e;
 	bool start = false;
 
-	// HUMania humania;
+	Story game;
 	int count = 0;
 	while( !quit )
 	{
@@ -179,7 +179,7 @@ void Window::run( )
 			
 			else if (e.type == SDL_KEYDOWN | e.type == SDL_KEYUP)
 			{
-				handleEvent(e);
+				handleEvent(e,game);
 			}
 			else if (e.type == SDL_MOUSEBUTTONDOWN)
 			{}
@@ -189,7 +189,7 @@ void Window::run( )
 		SDL_RenderCopy(Drawing::gRenderer, gTexture, NULL, NULL);//Draws background to renderer
 		//***********************draw the objects here********************
 
-		// humania.drawObjects();
+		game.drawObjects();
 
 		//****************************************************************
     	SDL_RenderPresent(Drawing::gRenderer); //displays the updated renderer
@@ -199,7 +199,7 @@ void Window::run( )
 			
 }
 
-void Window::handleEvent(SDL_Event e)
+void Window::handleEvent(SDL_Event e, Story& game)
 {
 	switch(e.type)
 	{
@@ -207,12 +207,16 @@ void Window::handleEvent(SDL_Event e)
 			switch(e.key.keysym.sym)
 			{
 				case SDLK_LEFT:
+					game.player->move(-5);
 					break;
 				case SDLK_RIGHT:
+					game.player->move(5);
 					break;
 				case SDLK_UP:
+					game.player->move(0,-5);
 					break;
 				case SDLK_DOWN:
+					game.player->move(0,5);
 					break;
 				default:
 					break;
@@ -222,12 +226,16 @@ void Window::handleEvent(SDL_Event e)
 			switch(e.key.keysym.sym)
 			{
 				case SDLK_LEFT:
+					game.player->move();
 					break;
 				case SDLK_RIGHT:
+					game.player->move();
 					break;
 				case SDLK_UP:
+					game.player->move();
 					break;
 				case SDLK_DOWN:
+					game.player->move();
 					break;
 				default:
 					break;

@@ -1,4 +1,5 @@
 #include "drawing.hpp"
+#include "story.cpp"
 #include <SDL.h>
 #include <SDL_image.h>
 #include <stdio.h>
@@ -10,7 +11,7 @@ using namespace std;
 class Background
 {
     public:
-    static const int NUMBER_OF_BGS = 2;
+    static const int NUMBER_OF_BGS = 4;
     static string paths[NUMBER_OF_BGS];
     static string bg;
     static int ind;
@@ -46,7 +47,7 @@ public:
     void run();
     const int getScreenWidth();
     const int getScreenHeight();
-    void handleEvent(SDL_Event);
+    void handleEvent(SDL_Event, Story&);
 
 };
 
