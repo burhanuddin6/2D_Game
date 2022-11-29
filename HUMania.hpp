@@ -19,6 +19,7 @@ class HUMania{
     // Obstacle** Obstacles = new Obstacle* [4];
 
     vector<Obstacle*> Obstacles; //Each Obstacles pointer point at Obstacles array. Each Index is a level.
+    vector<int> Obstacles_per_level;
 
     public:
     int level = 1;

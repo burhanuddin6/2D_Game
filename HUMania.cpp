@@ -43,44 +43,55 @@ void HUMania::drawObjects()
     float r1y = (Units[i] -> moverRect.y);
     float r1w = 50;
     float r1h = 50;
-    
-    for (int j = 0; sizeof(Obstacles[level]); j++){
-    int r2x = Obstacles[level][j].hitbox[0];
-    float r2y =  Obstacles[level][j].hitbox[2];
-    float r2w = (Obstacles[level][j].hitbox[1] - Obstacles[level][j].hitbox[0]);
-    float r2h = (Obstacles[level][j].hitbox[2] - Obstacles[level][j].hitbox[3]);
 
-    cout << "r2x:" << r2x << endl;
-    // cout << "r2w:" << r2w << endl;
-    if (r1x + r1w >= r2x && r1x <= r2x + r2w && r1y + r1h >= r2y && r1y <= r2y + r2h){   
-    // cout << "STINKYYYYYYYYYYYY" << endl;    // r1 bottom edge past r2 top
-    // collision = true;
+    // cout << "n:" << n << endl ;
+    
+    for (int j = 1; j < Obstacles_per_level[level]; j++){
+        int r2x = Obstacles[level][j].hitbox[0];
+        float r2y =  Obstacles[level][j].hitbox[3];
+        float r2w = (Obstacles[level][j].hitbox[1] - Obstacles[level][j].hitbox[0]);
+        float r2h = (Obstacles[level][j].hitbox[2] - Obstacles[level][j].hitbox[3]);
+
+        cout << "r2x:" << r2x << endl;
+        // cout << "r2y:" << r2y << endl;
+        // cout << "r2w:" << r2w << endl;
+        // cout << "r2h:" << r2h << endl;
+        if (r1x + r1w >= r2x && r1x <= r2x + r2w && r1y + r1h >= r2y && r1y <= r2y + r2h){   
+            cout << "Clash" << endl;    // r1 bottom edge past r2 top
+            collision = true;
+        }
     }
-    // if (collision == true){
-    //     delete Units[i];
-    //     Units[i] = NULL;
-    //     Units.erase(Units.begin()+i);
-    //     continue;
-    //     }
-    }
+    if (collision == true){
+        delete Units[i];
+        Units[i] = NULL;
+        Units.erase(Units.begin()+i);
+        continue;
+        }
+    collision = false;
     Units[i] -> draw();
     Units[i] -> fly();
+    // Units[i] -> draw();
+    // Units[i] -> fly();
     }
 }
 
 
 void HUMania::getObstacles(){
-    cout << "I farted" << endl;
+    // cout << "I farted" << endl;
     // Obstacles[0] = new Obstacle [5]; //change the number of obstacles if there are more levels.
     // Obstacles.push_back(new Obstacle [2]);
 
-    int n [5] = {2,5,6,8,1};
+    int n [] = {2,5,6,7,2};
+    cout << endl;
+    // cout << "Interger array size: " << sizeof(n) << endl;
     for (int i = 0; i < 5; i++){
         Obstacle* k = new Obstacle [n[i]];
         Obstacles.push_back(k);
+        Obstacles_per_level.push_back(n[i]);
         cout << n[i] << endl;
     }
-    cout << "Obstacles[level]" << sizeof(Obstacles[0]) << endl;
+    // cout << Obstacles[0] << endl;
+    // cout << "Obstacles[level]" << sizeof(Obstacles[0]) << endl;
     //
         Obstacles[1][0].hitbox_setter(16, 1067, 720, 0); //main screen
         Obstacles[1][1].hitbox_setter(16, 290, 654, 369); //left block
@@ -103,10 +114,23 @@ void HUMania::getObstacles(){
         Obstacles[3][5].hitbox_setter(355, 486, 330, 236); //topper middle block
         Obstacles[3][6].hitbox_setter(18, 143, 228, 194); //top left
     //
-        Obstacles[4][0].hitbox_setter(304,472,719,640);
+        Obstacles[4][0].hitbox_setter(16, 1067, 720, 0); //main screen
+        Obstacles[4][1].hitbox_setter(304,472,719,640);
+
+    for (int i = 0; i < 5; i++){
+        cout << "Obstacles per level: [" << i << "]" << Obstacles_per_level[i] << endl;
+    }
+    // cout << Obstacles.size() << endl;
+    // int k = sizeof(*Obstacles[1])/4;
+    // cout << "Level 1: " << k << endl; 
+    // k = sizeof(*Obstacles[2])/4;
+    // cout << "Level 2: " << k << endl;   
+    // k = sizeof(*Obstacles[3])/4;
+    // cout << "Level 3: " << k << endl;   
+    // k = sizeof(*Obstacles[4])/4;
+    // cout << "Level 4: " << k << endl;   
+
 }
-
-
 // creates new objects 
 void HUMania::createObject(int x, int y)
 {
