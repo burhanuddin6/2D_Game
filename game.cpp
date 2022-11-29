@@ -140,6 +140,7 @@ void Game::run( )
 	SDL_Event e;
 
 	HUMania humania;
+	humania.getObstacles();
 	while( !quit )
 	{
 		//Handle events on queue
