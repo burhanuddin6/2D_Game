@@ -1,12 +1,14 @@
 
 #include <SDL.h>
 #include <SDL_image.h>
+#include <SDL_mixer.h>
 #include <stdio.h>
 #include <iostream>
 #include <string>
 #include <stdlib.h>
 #include <time.h>
 #include <typeinfo>
+
 
 class Game{
     //Screen dimension constants
@@ -29,5 +31,6 @@ public:
     void close();
     SDL_Texture* loadTexture( std::string path );
     void run();
-};
 
+
+};

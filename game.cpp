@@ -12,6 +12,10 @@ bool Game::init()
 
 
 	//Initialize SDL
+	///
+	int init2 = Mix_Init(0);
+
+	///
 	if( SDL_Init( SDL_INIT_VIDEO ) < 0 )
 	{
 		printf( "SDL could not initialize! SDL Error: %s\n", SDL_GetError() );
@@ -136,6 +140,19 @@ SDL_Texture* Game::loadTexture( std::string path )
 }
 void Game::run( )
 {
+	Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 1024);
+	Mix_Music* music = Mix_LoadMUS("Popular_Potpourri.wav");
+	if (!music){
+		cout << "Music Error: " << Mix_GetError() << endl;
+	}
+	Mix_PlayMusic(music, -1);
+	// Mix_Chunk* sound = Mix_LoadWAV("Filename";)
+	// if (!sound){
+	// 	cout << "Sound Error: " << Mix_GetError() << endl;
+	// }
+	//Mix_PlayChannel(-1, sound, 0);
+
+
 	bool quit = false;
 	SDL_Event e;
 

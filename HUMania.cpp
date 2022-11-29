@@ -52,7 +52,7 @@ void HUMania::drawObjects()
         float r2w = (Obstacles[level][j].hitbox[1] - Obstacles[level][j].hitbox[0]);
         float r2h = (Obstacles[level][j].hitbox[2] - Obstacles[level][j].hitbox[3]);
 
-        cout << "r2x:" << r2x << endl;
+        // cout << "r2x:" << r2x << endl;
         // cout << "r2y:" << r2y << endl;
         // cout << "r2w:" << r2w << endl;
         // cout << "r2h:" << r2h << endl;
