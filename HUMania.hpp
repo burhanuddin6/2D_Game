@@ -22,7 +22,7 @@ class HUMania{
     vector<int> Obstacles_per_level;
 
     public:
-    int level = 1;
+    int level = 0;
     int T = 0; //This prevents Loadmedia to keep on loading the same background over and over again, and tells that transitioning is required.
 
     void drawObjects(); 

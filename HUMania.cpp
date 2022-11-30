@@ -81,7 +81,7 @@ void HUMania::getObstacles(){
     // Obstacles[0] = new Obstacle [5]; //change the number of obstacles if there are more levels.
     // Obstacles.push_back(new Obstacle [2]);
 
-    int n [] = {2,5,6,7,2};
+    int n [] = {2,5,6,7,3};
     cout << endl;
     // cout << "Interger array size: " << sizeof(n) << endl;
     for (int i = 0; i < 5; i++){
@@ -92,6 +92,9 @@ void HUMania::getObstacles(){
     }
     // cout << Obstacles[0] << endl;
     // cout << "Obstacles[level]" << sizeof(Obstacles[0]) << endl;
+        Obstacles[0][0].hitbox_setter(16, 1067, 720, 0); //main screen
+        Obstacles[0][1].hitbox_setter(16, 1067, 720, 0); //main screen
+        Obstacles[0][2].hitbox_setter(16, 290, 654, 369); //left block
     //
         Obstacles[1][0].hitbox_setter(16, 1067, 720, 0); //main screen
         Obstacles[1][1].hitbox_setter(16, 290, 654, 369); //left block
@@ -134,9 +137,43 @@ void HUMania::getObstacles(){
 // creates new objects 
 void HUMania::createObject(int x, int y)
 {
+    if (level == 0){
+    float r1x = 546;  // x position
+    float r1y = 276;  // y position
+    float r1w = 342;  // width
+    float r1h = 94;  // height
+
+    float r2x = 546;  // x position
+    float r2y = 370;  // y position
+    float r2w = 342;  // width
+    float r2h = 94;  // height
+
+    if (x >= r1x && x <= r1x + r1w && y >= r1y && y <= r1y + r1h) {
+        level++;
+        T=1;
+        }
+    if (x >= r2x && x <= r2x + r2w && y >= r2y && y <= r2y + r2h) {
+        level = -1;
+        T=1;
+        }
+    }
+    if (level == -1){
+    float r3x = 367;  // x position
+    float r3y = 659;  // y position
+    float r3w = 707;  // width
+    float r3h = 56;  // height
+    if (x >= r3x && x <= r3x + r3w && y >= r3y && y <= r3y + r3h) {
+        level = 0;
+        T=1;
+        }
+    }
+
+
+    else{
     ObjectCreator k;
     if (x<1000)
     {Units.push_back(k.getObject(x,y));}
+    }
     if (x>1000)
     {level++;
     T = 1;

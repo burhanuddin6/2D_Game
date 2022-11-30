@@ -78,6 +78,14 @@ bool Game::loadMedia(int n)
 	bool success = true;
 	
 	Drawing::assets = loadTexture("assets.png");
+	if (n==-1){
+		SDL_DestroyTexture(gTexture);
+		gTexture = loadTexture("Credits.jpg");
+	}
+	if (n==0){
+		SDL_DestroyTexture(gTexture);
+		gTexture = loadTexture("Title_Screen.jpg");
+	}
 	if (n==1){
 		SDL_DestroyTexture(gTexture);
 		gTexture = loadTexture("Level 1.png");
@@ -171,6 +179,15 @@ void Game::run( )
 		while( SDL_PollEvent( &e ) != 0 ) //responsible for looping
 		{
 			// cout << "humania level: " << humania.level << endl;
+			if (humania.level == -1 && humania.T == 1){
+			Game::loadMedia(-1);
+			}
+			if (humania.level == 0 && humania.T == 1){
+			Game::loadMedia(0);
+			}
+			if (humania.level == 1 && humania.T == 1){
+			Game::loadMedia(1);
+			}
 			if (humania.level == 2 && humania.T == 1){
 			// SDL_DestroyTexture(gTexture);
 	
