@@ -12,10 +12,9 @@ bool Game::init()
 
 
 	//Initialize SDL
-	///
+	/// Initializing Music SDL Library
 	int init2 = Mix_Init(0);
 
-	///
 	if( SDL_Init( SDL_INIT_VIDEO ) < 0 )
 	{
 		printf( "SDL could not initialize! SDL Error: %s\n", SDL_GetError() );
@@ -30,7 +29,7 @@ bool Game::init()
 		}
 
 		//Create window
-		gWindow = SDL_CreateWindow( "HU Mania", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN );
+		gWindow = SDL_CreateWindow( "The Jump King By Asghar, Burhan and ShahJahan!", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN );
 		if( gWindow == NULL )
 		{
 			printf( "Window could not be created! SDL Error: %s\n", SDL_GetError() );
@@ -61,7 +60,15 @@ bool Game::init()
 			}
 		}
 	}
-
+	// Initializing TTF SDL Library
+	if (TTF_Init() == -1){
+		cout << "Could not initialize SDL2_ttf, error: " << TTF_GetError() << endl;
+	}
+	TTF_Font* ourFont = TTF_OpenFont("Kingthings Foundation.ttf",32);
+	if (ourFont == nullptr){
+		cout << "Could not load font" << endl;
+		exit(1);
+	}
 	return success;
 }
 
@@ -165,6 +172,29 @@ void Game::run( )
 		{
 			// cout << "humania level: " << humania.level << endl;
 			if (humania.level == 2 && humania.T == 1){
+			// SDL_DestroyTexture(gTexture);
+	
+	// SDL_SetRenderDrawColor(Drawing::gRenderer, 0,0,0xFF,SDL_ALPHA_OPAQUE);
+
+	// TTF_Font* ourFont = TTF_OpenFont("Kingthings Foundation.ttf",48);
+	// SDL_Surface* surfaceText = TTF_RenderText_Solid(ourFont, "I like Fortnite", {233,0,0});
+	// SDL_Texture* TextureText = SDL_CreateTextureFromSurface(Drawing::gRenderer,surfaceText);
+	// SDL_Rect rectangle = {30,30, surfaceText -> w, surfaceText -> h};
+	// SDL_FreeSurface(surfaceText);
+
+	//https://www.youtube.com/watch?v=ltNTI9m_Vg0
+	//https://www.youtube.com/watch?v=1tBzIhVgR7E
+	// TTF_CloseFont(ourFont);
+	// rectangle.x = 10;
+	// rectangle.y = 10;
+	// rectangle.w = 400;
+	// rectangle.h = 100;
+	// SDL_SetRenderDrawColor(Drawing::gRenderer, 0,0,0xFF,SDL_ALPHA_OPAQUE);
+	// SDL_RenderClear(Drawing::gRenderer);
+	// SDL_RenderCopy(Drawing::gRenderer, TextureText, NULL, &rectangle);
+	// SDL_RenderPresent(Drawing::gRenderer);
+
+
 				Game::loadMedia(2);
 			}
 			else if (humania.level == 3  && humania.T == 1){
