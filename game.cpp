@@ -4,6 +4,7 @@
 
 SDL_Renderer* Drawing::gRenderer = NULL;
 SDL_Texture* Drawing::assets = NULL;
+SDL_Texture* Drawing::star = NULL;
 
 bool Game::init()
 {
@@ -12,8 +13,9 @@ bool Game::init()
 
 
 	//Initialize SDL
-	/// Initializing Music SDL Library
-	int init2 = Mix_Init(0);
+
+	int init2 = Mix_Init(0); 	/// Initializing Music SDL Library
+
 
 	if( SDL_Init( SDL_INIT_VIDEO ) < 0 )
 	{
@@ -60,7 +62,7 @@ bool Game::init()
 			}
 		}
 	}
-	// Initializing TTF SDL Library
+	// Initializing TTF SDL Library 
 	if (TTF_Init() == -1){
 		cout << "Could not initialize SDL2_ttf, error: " << TTF_GetError() << endl;
 	}
@@ -78,6 +80,9 @@ bool Game::loadMedia(int n)
 	bool success = true;
 	
 	Drawing::assets = loadTexture("assets.png");
+	Drawing::star = loadTexture("Star.png");
+
+///Depending on the int given to loadmedia, deletes previous image and loads a new one. 
 	if (n==-1){
 		SDL_DestroyTexture(gTexture);
 		gTexture = loadTexture("Credits.jpg");
@@ -102,7 +107,10 @@ bool Game::loadMedia(int n)
 		SDL_DestroyTexture(gTexture);
 		gTexture = loadTexture("Level 4.png");
 	}
-	if(Drawing::assets==NULL || gTexture==NULL)
+
+////////
+
+	if(Drawing::assets==NULL || gTexture==NULL || Drawing::star == NULL)
     {
         printf("Unable to run due to error: %s\n",SDL_GetError());
         success =false;
@@ -114,6 +122,8 @@ void Game::close()
 {
 	//Free loaded images
 	SDL_DestroyTexture(Drawing::assets);
+	SDL_DestroyTexture(Drawing::star); // new
+	Drawing::star == NULL;
 	Drawing::assets=NULL;
 	SDL_DestroyTexture(gTexture);
 	
@@ -155,48 +165,55 @@ SDL_Texture* Game::loadTexture( std::string path )
 }
 void Game::run( )
 {
+
+// Playing Music and sound effect initialization. few lines of code are also initialized in my game:init function.
+
 	Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 1024);
 	Mix_Music* music = Mix_LoadMUS("Popular_Potpourri.wav");
+	// Mix_Music* music = Mix_LoadMUS("Lofi.mp3");
 	if (!music){
 		cout << "Music Error: " << Mix_GetError() << endl;
 	}
 	Mix_PlayMusic(music, -1);
-	// Mix_Chunk* sound = Mix_LoadWAV("Filename";)
-	// if (!sound){
-	// 	cout << "Sound Error: " << Mix_GetError() << endl;
-	// }
-	//Mix_PlayChannel(-1, sound, 0);
+
+	Mix_Chunk* sound = Mix_LoadWAV("Click.wav");
+	if (!sound){
+		cout << "Sound Error: " << Mix_GetError() << endl;
+	}
 
 
 	bool quit = false;
 	SDL_Event e;
 
 	HUMania humania;
-	humania.getObstacles();
+	humania.getObstacles(); // Initializes all the obstacles.
 	while( !quit )
 	{
 		//Handle events on queue
 		while( SDL_PollEvent( &e ) != 0 ) //responsible for looping
 		{
-			// cout << "humania level: " << humania.level << endl;
+// This checks the Humania level in loop and if it's transitioning, it loads the media. T variable is imp warna it will keep on loading the same media over and over again.
 			if (humania.level == -1 && humania.T == 1){
 			Game::loadMedia(-1);
 			}
 			if (humania.level == 0 && humania.T == 1){
 			Game::loadMedia(0);
+			// Mix_FreeChunk(music);
 			}
 			if (humania.level == 1 && humania.T == 1){
 			Game::loadMedia(1);
 			}
 			if (humania.level == 2 && humania.T == 1){
-			// SDL_DestroyTexture(gTexture);
+
+// TEST .TTF code block /////
+	// 		SDL_DestroyTexture(gTexture);
 	
 	// SDL_SetRenderDrawColor(Drawing::gRenderer, 0,0,0xFF,SDL_ALPHA_OPAQUE);
 
 	// TTF_Font* ourFont = TTF_OpenFont("Kingthings Foundation.ttf",48);
-	// SDL_Surface* surfaceText = TTF_RenderText_Solid(ourFont, "I like Fortnite", {233,0,0});
+	// SDL_Surface* surfaceText = TTF_RenderText_Solid(ourFont, "I like Fortnite", {255,255,255});
 	// SDL_Texture* TextureText = SDL_CreateTextureFromSurface(Drawing::gRenderer,surfaceText);
-	// SDL_Rect rectangle = {30,30, surfaceText -> w, surfaceText -> h};
+	// SDL_Rect rectangle = {100,100, surfaceText -> w, surfaceText -> h};
 	// SDL_FreeSurface(surfaceText);
 
 	//https://www.youtube.com/watch?v=ltNTI9m_Vg0
@@ -210,7 +227,7 @@ void Game::run( )
 	// SDL_RenderClear(Drawing::gRenderer);
 	// SDL_RenderCopy(Drawing::gRenderer, TextureText, NULL, &rectangle);
 	// SDL_RenderPresent(Drawing::gRenderer);
-
+///
 
 				Game::loadMedia(2);
 			}
@@ -230,6 +247,7 @@ void Game::run( )
 
 			if(e.type == SDL_MOUSEBUTTONDOWN){
 			//this is a good location to add pigeon in linked list.
+				Mix_PlayChannel(-1, sound, 0); //plays a sound effect.
 				int xMouse, yMouse;
 				SDL_GetMouseState(&xMouse,&yMouse);
 				humania.createObject(xMouse, yMouse);

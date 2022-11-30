@@ -7,6 +7,7 @@
 #include "Unit.hpp"
 #include "ObjectCreator.hpp"
 #include "Obstacle.hpp"
+#include "Star.hpp"
 #pragma once
 using namespace std;
 
