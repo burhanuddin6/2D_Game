@@ -54,14 +54,18 @@ void HUMania::drawObjects()
     float r1y = (Units[i] -> moverRect.y);
     float r1w = 50;
     float r1h = 50;
+
+    //why j = 1? cause first obstacle is our screen and our Units being formed within them will never be drawn and instantly collide (as screen as a whole is thought of as an obstacle)
+    //This checks for rectangles/rectangles collision, not lines/lines.
     for (int j = 1; j < Obstacles_per_level[level]; j++){
         int r2x = Obstacles[level][j].hitbox[0]; //x1
         float r2y =  Obstacles[level][j].hitbox[3]; //y1
         float r2w = (Obstacles[level][j].hitbox[1] - Obstacles[level][j].hitbox[0]); //width
         float r2h = (Obstacles[level][j].hitbox[2] - Obstacles[level][j].hitbox[3]); //height
         if (r1x + r1w >= r2x && r1x <= r2x + r2w && r1y + r1h >= r2y && r1y <= r2y + r2h){   //checks for collision
-            cout << "Clash" << endl; //Tells when an enemy dies
             collision = true;
+	        Mix_Chunk* explosion = Mix_LoadWAV("Short_Explosion.wav"); //boom boom sound effect added.
+	        Mix_PlayChannel(-1, explosion, 0);
         }
     }
     // The conditional statement underneath just deletes the collided enemy.
