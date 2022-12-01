@@ -83,15 +83,21 @@ void HUMania::drawObjects()
 
 //STARS (this is just drawing them as simply as possible depending on the level we are at)
     if (level == 1 || level == 2 || level == 3){
+        float sx;
+        float sy;
         if (level == 1){
-            Star(910,309).draw();
+            sx = 910;
+            sy = 309;
         }
         else if (level == 2){
-            Star(983,336).draw();
+            sx = 983;
+            sy = 336;
         }
         else if (level == 3){
-            Star(454,402).draw();
+            sx = 454;
+            sy = 402;
         }
+        Star(sx,sy).draw();
     }
 }
 
@@ -207,6 +213,8 @@ HUMania::~HUMania(){ //The Destructor to release all the memory when we exit the
     for (int i = 0; i < Units.size(); i++){
         delete Units[i];
         Units[i] = NULL;
+        delete Obstacles [i];
+        Obstacles[i] = NULL;
     }
     cout << "Destruction Successfully Carried Out." << endl;
 }
